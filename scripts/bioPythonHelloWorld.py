@@ -21,9 +21,10 @@ print("{0}".format(makeYellow(sys.version)))
 
 # Need to tell the NLM who you are when you access e-utils
 Entrez.email = 'firaswehbe@users.noreply.github.com'
-Entrez.tool = 'firaswehbe@github:/eutilsutils'
+Entrez.tool = 'github.com/firaswehbe/eutilsutils/scripts/bioPythonHelloWorld.py'
 
-print("Setting up email and tools as:\n{0}\n{1}\n...".format(Entrez.email, Entrez.tool))
+print("Setting up email and tools as:\nEntrez.email: {0}\nEntrez.tool: {1}\n..."\
+        .format(makeYellow(Entrez.email), makeYellow(Entrez.tool)))
 print("Running {0}\n...".format(makeYellow("Entrez.einfo( db='pubmed' )")))
 
 myhandle = Entrez.einfo( db='pubmed' )
