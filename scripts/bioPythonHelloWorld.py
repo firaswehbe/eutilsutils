@@ -31,5 +31,21 @@ myhandle = Entrez.einfo( db='pubmed' )
 myresult = Entrez.read( myhandle )
 print("Date of last update: {0}".format(makeRed(myresult['DbInfo']['LastUpdate'])))
 print("Description of PubMed: {0}".format(makeRed(myresult['DbInfo']['Description'])))
-print("Number of records in PubMed: {0}".format(makeRed(myresult['DbInfo']['Count'])))
+print("Number of records in PubMed: {0}\n...".format(makeRed(myresult['DbInfo']['Count'])))
 
+# Read a list of pubmed ids into a list for use in testing scripts
+pmidfile = 'input/fhw.pmids'
+testpmids = list()
+fh = open(pmidfile,'r')
+for x in fh:
+    testpmids.append(x.strip())
+fh.close()
+print("Read ids from {0}: {1}\n..."\
+        .format(makeYellow(pmidfile),makeRed(len(testpmids))))
+
+# Run an Entrez.post
+print("Sending {0} from the pmids file\n...".format(makeYellow('Entrez.epost')))
+myhandle = Entrez.epost( 'pubmed', id=','.join(testpmids) )
+myresult = Entrez.read( myhandle )
+print("WebEnv: {0}\nquery_key: {1}\n..."\
+        .format(makeRed(myresult['WebEnv']),makeYellow(myresult['QueryKey'])))
