@@ -49,3 +49,13 @@ myhandle = Entrez.epost( 'pubmed', id=','.join(testpmids) )
 myresult = Entrez.read( myhandle )
 print("WebEnv: {0}\nquery_key: {1}\n..."\
         .format(makeRed(myresult['WebEnv']),makeYellow(myresult['QueryKey'])))
+
+# Run an Entrez.esummary
+print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary')))
+myhandle = Entrez.esummary( db='pubmed', webenv=myresult['WebEnv'], query_key=myresult['QueryKey'])
+myresult = Entrez.read( myhandle )
+print("Got response of length: {0}".format(makeRed(len(myresult))))
+for x in myresult:
+    print("{0}\t{1}\t{2}\t{3}"\
+            .format(x['Id'],x['Title'][0:40],x['Source'],x['SO']))
+
