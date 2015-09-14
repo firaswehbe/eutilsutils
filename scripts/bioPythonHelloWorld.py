@@ -51,11 +51,24 @@ print("WebEnv: {0}\nquery_key: {1}\n..."\
         .format(makeRed(myresult['WebEnv']),makeYellow(myresult['QueryKey'])))
 
 # Run an Entrez.esummary
-print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary')))
+print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary()')))
 myhandle = Entrez.esummary( db='pubmed', webenv=myresult['WebEnv'], query_key=myresult['QueryKey'])
 myresult = Entrez.read( myhandle )
 print("Got response of length: {0}".format(makeRed(len(myresult))))
 for x in myresult:
     print("{0}\t{1}\t{2}\t{3}"\
             .format(x['Id'],x['Title'][0:40],x['Source'],x['SO']))
+print("...")
 
+# Run an Entrez.esearch
+print("Running {0} using the term {1}\n..."\
+        .format(makeYellow('Entrez.esearch()'),makeYellow('wehbe f[au]')))
+myhandle = Entrez.esearch( db='pubmed', term='wehbe f[au]')
+myresult = Entrez.read( myhandle )
+print("Got response with the following attributes:")
+print("Count: {0}".format(makeRed(myresult['Count'])))
+print("RetStart: {0}\tRetMax: {1}".format(makeRed(myresult['RetStart']),makeRed(myresult['RetMax'])))
+print("IdList (just count): {0}".format(makeRed(len(myresult['IdList']))))
+print("QueryTranslation: {0}".format(makeRed(myresult['QueryTranslation'])))
+print("TranslationStack: {0}".format(makeRed('** not shown **')))
+print("TranslationSet: {0}".format(makeRed('** not shown **')))
