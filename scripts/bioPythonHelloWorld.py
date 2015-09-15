@@ -47,12 +47,14 @@ print("Read ids from {0}: {1}\n..."\
 print("Sending {0} from the pmids file\n...".format(makeYellow('Entrez.epost')))
 myhandle = Entrez.epost( 'pubmed', id=','.join(testpmids) )
 myresult = Entrez.read( myhandle )
+mywebenv = myresult['WebEnv']
+myquerykey = myresult['QueryKey']
 print("WebEnv: {0}\nquery_key: {1}\n..."\
-        .format(makeRed(myresult['WebEnv']),makeYellow(myresult['QueryKey'])))
+        .format(makeRed(mywebenv),makeYellow(myquerykey)))
 
 # Run an Entrez.esummary
 print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary()')))
-myhandle = Entrez.esummary( db='pubmed', webenv=myresult['WebEnv'], query_key=myresult['QueryKey'])
+myhandle = Entrez.esummary( db='pubmed', webenv=mywebenv, query_key=myquerykey)
 myresult = Entrez.read( myhandle )
 print("Got response of length: {0}".format(makeRed(len(myresult))))
 for x in myresult:
@@ -63,8 +65,10 @@ print("...")
 # Run an Entrez.esearch
 print("Running {0} using the term {1}\n..."\
         .format(makeYellow('Entrez.esearch()'),makeYellow('wehbe f[au]')))
-myhandle = Entrez.esearch( db='pubmed', term='wehbe f[au]')
+myhandle = Entrez.esearch( db='pubmed', term='wehbe f[au]', usehistory='y', webenv=mywebenv)
 myresult = Entrez.read( myhandle )
+mywebenv = myresult['WebEnv']
+myquerykey = myresult['QueryKey']
 print("Got response with the following attributes:")
 print("Count: {0}".format(makeRed(myresult['Count'])))
 print("RetStart: {0}\tRetMax: {1}".format(makeRed(myresult['RetStart']),makeRed(myresult['RetMax'])))
@@ -72,3 +76,12 @@ print("IdList (just count): {0}".format(makeRed(len(myresult['IdList']))))
 print("QueryTranslation: {0}".format(makeRed(myresult['QueryTranslation'])))
 print("TranslationStack: {0}".format(makeRed('** not shown **')))
 print("TranslationSet: {0}".format(makeRed('** not shown **')))
+print("WebEnv: {0}\nquery_key: {1}\n..."\
+        .format(makeRed(mywebenv),makeYellow(myquerykey)))
+print("...")
+
+# Run an Entrez.efetch
+print("Requesting {0} based on the esearch\n...".format(makeYellow('Entrez.efetch()')))
+myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='xml' ) #Default is JSON!
+myresult = Entrez.read( myhandle )
+print("Got response of length: {0}".format(makeRed(len(myresult))))
