@@ -6,6 +6,7 @@
 # TODO: handle fail
 
 from Bio import Entrez
+from Bio import Medline
 import sys
 
 # Expect this to run in a terminal, so show dynamic results in bold red
@@ -78,10 +79,40 @@ print("TranslationStack: {0}".format(makeRed('** not shown **')))
 print("TranslationSet: {0}".format(makeRed('** not shown **')))
 print("WebEnv: {0}\nquery_key: {1}\n..."\
         .format(makeRed(mywebenv),makeYellow(myquerykey)))
-print("...")
 
-# Run an Entrez.efetch
-print("Requesting {0} based on the esearch\n...".format(makeYellow('Entrez.efetch()')))
-myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='xml' ) #Default is JSON!
+"""
+Entrez.efetch() can run in at least two ways to get the complete record:
+    0. We can read the whole XML feed and parse it at once using Entrez.read
+    1. We can get an XML feed and parse it piecemeal using Entrez.parse
+    2. We can get an MEDLINE feed and parse it piecemeal using Medline.parse
+
+0 ==> run into memory problems
+1 ==> complicated data structure
+2 ==> simple data structure
+"""
+
+
+# Run an Entrez.efetch using method 0
+print("Requesting {0} based on the esearch and method 0\n...".format(makeYellow('Entrez.efetch()')))
+myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='xml') #Default is ASN.1!
 myresult = Entrez.read( myhandle )
 print("Got response of length: {0}".format(makeRed(len(myresult))))
+print("...")
+
+# Run an Entrez.efetch using method 1
+print("Requesting {0} based on the esearch and method 1\n...".format(makeYellow('Entrez.efetch()')))
+myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='xml') #Default is ASN.1!
+myresultp = Entrez.parse( myhandle )
+for x in myresultp:
+    print("MedlineCitation\PMID = {0}").format( makeRed(x['MedlineCitation']['PMID']) )
+    print("PubmedData\PublicationStatus = {0}").format( makeRed(x['PubmedData']['PublicationStatus'] ) )
+print("...")
+
+# Run an Entrez.efetch using method 2
+print("Requesting {0} based on the esearch and method 2\n...".format(makeYellow('Entrez.efetch()')))
+myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='text', rettype='medline') #Default is ASN.1!
+myresultp = Medline.parse( myhandle )
+for x in myresultp:
+    print("PMID = {0}").format( makeRed(x['PMID']) )
+    print("PST = {0}").format( makeRed(x['PST']) )
+print("...")
