@@ -4,6 +4,7 @@
 
 # All the eutilsutils code requires BioPython
 # TODO: handle fail
+# TODO: handle report in pandas
 
 from Bio import Entrez
 from Bio import Medline
@@ -115,4 +116,6 @@ myresultp = Medline.parse( myhandle )
 for x in myresultp:
     print("PMID = {0}").format( makeRed(x['PMID']) )
     print("PST = {0}").format( makeRed(x['PST']) )
+    print("JID = {0}").format( makeRed(x['JID']) )
+    print("TA = {0}").format( makeRed(x['TA']) )
 print("...")
