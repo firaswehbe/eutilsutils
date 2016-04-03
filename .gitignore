@@ -2,3 +2,4 @@
 *.py~
 *.pyc
 notebooks/.*
+scripts/output/*.csv
