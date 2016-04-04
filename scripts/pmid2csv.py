@@ -6,6 +6,8 @@ import pandas as pd
 import sys
 import os.path
 
+# General script bookkeeping and hygeine
+
 print sys.argv
 
 if len(sys.argv) < 3:
@@ -19,14 +21,27 @@ csvfile = sys.argv[2]
 if os.path.exists(csvfile):
     sys.exit('Output file "{0}" already exist, cannot overwrite'.format(csvfile))
 
-# Defining the columns, eSummary is flat, so no need to fetch data 
-# from nested structures
+# Defining the columns, eSummary is flat, so in general no need to fetch data 
+# from deep nested structures
 
 cols =[
     'Id','Title','Source','SO'
     ]
 
 outframe = pd.DataFrame( columns = cols )
+
+# Mapping function from the eSummary() data structure to the columns above
+# TODO: This is not used now, I put it here so we can use parse and iterator for
+# large results
+
+def extractSummary( esummobject ):
+    myextract = dict()
+    myextract['Id'] = esummobject['Id']
+    myextract['Title'] = esummobject['Title']
+    myextract['Source'] = esummobject['Source']
+    myextract['SO'] = esummobject['SO']
+    return myextract
+
 
 # Expect this to run in a terminal, so show dynamic results in bold red
 def makeRed(myinput):
