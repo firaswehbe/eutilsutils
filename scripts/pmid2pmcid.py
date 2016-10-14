@@ -21,14 +21,16 @@ csvfile = sys.argv[2]
 if os.path.exists(csvfile):
     sys.exit('Output file "{0}" already exist, cannot overwrite'.format(csvfile))
 
+
 # Defining the columns, eSummary is flat, so in general no need to fetch data 
 # from deep nested structures
 
 cols =[
-    'Id','Title','Source','SO'
+    'pmid','pmc'
     ]
 
 outframe = pd.DataFrame( columns = cols )
+
 
 # Mapping function from the eSummary() data structure to the columns above
 # TODO: This is not used now, I put it here so we can use parse and iterator for
@@ -36,10 +38,11 @@ outframe = pd.DataFrame( columns = cols )
 
 def extractSummary( esummobject ):
     myextract = dict()
-    myextract['Id'] = esummobject['Id']
-    myextract['Title'] = esummobject['Title']
-    myextract['Source'] = esummobject['Source']
-    myextract['SO'] = esummobject['SO']
+    myextract['pmid'] = esummobject['Id']
+    myextract['pmc'] = None
+    if 'ArticleIds' in esummobject.keys():
+        if 'pmc' in esummobject['ArticleIds'].keys(): 
+            myextract['pmc'] = esummobject['ArticleIds']['pmc']
     return myextract
 
 
@@ -61,26 +64,39 @@ fh = open(pmidfile,'r')
 for x in fh:
     testpmids.append(x.strip())
 fh.close()
+
+# Uncomment below in verbose flag
+'''
 print("Read ids from {0}: {1}\n..."\
         .format(makeYellow(pmidfile),makeRed(len(testpmids))))
+'''
 
 # Run an Entrez.post
-print("Sending {0} from the pmids file\n...".format(makeYellow('Entrez.epost()')))
+# Uncomment below in verbose flag
+#print("Sending {0} from the pmids file\n...".format(makeYellow('Entrez.epost()')))
 myhandle = Entrez.epost( 'pubmed', id=','.join(testpmids) )
 myresult = Entrez.read( myhandle )
 mywebenv = myresult['WebEnv']
 myquerykey = myresult['QueryKey']
+
+# Uncomment below in verbose flag
+'''
 print("WebEnv: {0}\nquery_key: {1}\n..."\
         .format(makeRed(mywebenv),makeRed(myquerykey)))
+'''
 
 # Run an Entrez.esummary
-print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary()')))
+# Uncomment in verbose mode
+#print("Requesting {0} based on the epost\n...".format(makeYellow('Entrez.esummary()')))
 myhandle = Entrez.esummary( db='pubmed', webenv=mywebenv, query_key=myquerykey)
 myresult = Entrez.read( myhandle )
-print("Got response of length: {0}".format(makeRed(len(myresult))))
-outframe = outframe.append( pd.DataFrame( myresult, columns = cols) , ignore_index=True)
+# Uncomment in verbose mode
+#print("Got response of length: {0}".format(makeRed(len(myresult))))
+for x in myresult:
+    outframe = outframe.append( pd.Series( extractSummary(x) ), ignore_index=True )
 
 # Write to csvfile
-print("Writing to {0}\n...".format(makeRed(csvfile)))
+# Uncomment in verbose mode
+#print("Writing to {0}\n...".format(makeRed(csvfile)))
 outframe.to_csv(csvfile, quoting=csv.QUOTE_ALL, index=False)
 

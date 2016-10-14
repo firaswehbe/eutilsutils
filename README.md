@@ -9,3 +9,18 @@ here](notebooks/).
 
 The `scripts/` directory will have some general utility scripts for testing the
 code or to demonstrate the functionality.
+
+## Installation and Running
+
+Easy. 
+
+Download and install [Anaconda](https://www.continuum.io/downloads).
+
+Clone this repo
+
+Create a conda environment with all the packages used in the scripts herein. I created an environment that you can load as follows:
+
+'''bash
+$ conda env create -f config/eutilsutils.yml
+'''
+
