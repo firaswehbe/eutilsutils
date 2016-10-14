@@ -8,7 +8,7 @@ import os.path
 
 # General script bookkeeping and hygeine
 
-print sys.argv
+print (sys.argv)
 
 if len(sys.argv) < 3:
     sys.exit('Need to specify 2 arguments')

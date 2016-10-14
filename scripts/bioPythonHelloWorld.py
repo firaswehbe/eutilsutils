@@ -105,8 +105,8 @@ print("Requesting {0} based on the esearch and method 1\n...".format(makeYellow(
 myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='xml') #Default is ASN.1!
 myresultp = Entrez.parse( myhandle )
 for x in myresultp:
-    print("MedlineCitation\PMID = {0}").format( makeRed(x['MedlineCitation']['PMID']) )
-    print("PubmedData\PublicationStatus = {0}").format( makeRed(x['PubmedData']['PublicationStatus'] ) )
+    print("MedlineCitation\PMID = {0}".format( makeRed(x['MedlineCitation']['PMID']) ) )
+    print("PubmedData\PublicationStatus = {0}".format( makeRed(x['PubmedData']['PublicationStatus'] ) ) )
 print("...")
 
 # Run an Entrez.efetch using method 2
@@ -114,8 +114,8 @@ print("Requesting {0} based on the esearch and method 2\n...".format(makeYellow(
 myhandle = Entrez.efetch( db='pubmed', webenv=mywebenv, query_key=myquerykey, retmode='text', rettype='medline') #Default is ASN.1!
 myresultp = Medline.parse( myhandle )
 for x in myresultp:
-    print("PMID = {0}").format( makeRed(x['PMID']) )
-    print("PST = {0}").format( makeRed(x['PST']) )
-    print("JID = {0}").format( makeRed(x['JID']) )
-    print("TA = {0}").format( makeRed(x['TA']) )
+    print("PMID = {0}".format( makeRed(x['PMID']) ) )
+    print("PST = {0}".format( makeRed(x['PST']) ) )
+    print("JID = {0}".format( makeRed(x['JID']) ) )
+    print("TA = {0}".format( makeRed(x['TA']) ) )
 print("...")
