@@ -12,7 +12,7 @@ code or to demonstrate the functionality.
 
 ## Installation and Running
 
-Easy. 
+Easy:
 
 Download and install [Anaconda](https://www.continuum.io/downloads).
 
@@ -20,7 +20,9 @@ Clone this repo
 
 Create a conda environment with all the packages used in the scripts herein. I created an environment that you can load as follows:
 
-'''bash
+```bash
 $ conda env create -f config/eutilsutils.yml
-'''
+```
+
+Run the scripts and notebooks under this environment. I'll make sure all dependencies are always included.
 
