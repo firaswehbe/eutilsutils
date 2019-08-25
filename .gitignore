@@ -3,3 +3,4 @@
 *.pyc
 notebooks/.*
 scripts/output/*.csv
+config/config.ini
