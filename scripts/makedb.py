@@ -4,7 +4,7 @@ import sqlalchemy as SA
 import configparser
 
 myconfig = configparser.ConfigParser()
-myconfig.read('config/config.ini')
+myconfig.read('../config/config.ini')
 
 myenginestr = 'postgres://{0}:{1}@{2}:{3}/{4}'.format(
         myconfig.get('database','dbuser',fallback=''),
