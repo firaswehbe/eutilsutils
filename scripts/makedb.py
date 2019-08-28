@@ -7,14 +7,16 @@ if __name__ != '__main__':
 import sqlalchemy as SA
 import eutilsconfig as EC
 import argparse
+import logging
 
 myargparser = argparse.ArgumentParser(description='Create empty database for eutilsutils')
 myargparser.add_argument("-t", "--tablename", help="The new table you want to create. [NOT IMPLEMENTED]", nargs="*")
 myargparser.add_argument("-d", "--drop", help="Drop table(s) if they exist", action="store_true")
 myargs = myargparser.parse_args()
 
-myengine = SA.create_engine(EC.myenginestr)
+logging.basicConfig(filename='log/scripts.log',level=logging.DEBUG,format='%(asctime)s %(levelname)s:%(message)s')
 
+myengine = SA.create_engine(EC.myenginestr)
 mymetadata = SA.MetaData()
 
 eusummaries = SA.Table('esummaries', mymetadata,
@@ -27,4 +29,5 @@ eusummaries = SA.Table('esummaries', mymetadata,
 
 if myargs.drop: 
     mymetadata.drop_all(myengine)
+    logging.warning('Dropped all tables in schema')
 mymetadata.create_all(myengine)

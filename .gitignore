@@ -4,4 +4,5 @@
 *.DS_Store
 notebooks/.*
 scripts/output/*.csv
+scripts/log/*.log
 config/config.ini
