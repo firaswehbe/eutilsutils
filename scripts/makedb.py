@@ -1,21 +1,19 @@
 #!/usr/bin/env python
 
+if __name__ != '__main__':
+    import sys
+    sys.exit("This script cannot be imported, only run from command line")
+
 import sqlalchemy as SA
-import configparser
+import eutilsconfig as EC
+import argparse
 
-myconfig = configparser.ConfigParser()
-myconfig.read('../config/config.ini')
+myargparser = argparse.ArgumentParser(description='Create empty database for eutilsutils')
+myargparser.add_argument("-t", "--tablename", help="The new table you want to create. [NOT IMPLEMENTED]", nargs="*")
+myargparser.add_argument("-d", "--drop", help="Drop table(s) if they exist", action="store_true")
+myargs = myargparser.parse_args()
 
-myenginestr = 'postgres://{0}:{1}@{2}:{3}/{4}'.format(
-        myconfig.get('database','dbuser',fallback=''),
-        myconfig.get('database','dbpassword',fallback=''),
-        myconfig.get('database','dbhost',fallback=''),
-        myconfig.get('database','dbport',fallback=''),
-        myconfig.get('database','dbname',fallback='')
-        )
-        
-
-myengine = SA.create_engine(myenginestr)
+myengine = SA.create_engine(EC.myenginestr)
 
 mymetadata = SA.MetaData()
 
@@ -27,4 +25,6 @@ eusummaries = SA.Table('esummaries', mymetadata,
     SA.Column('so', SA.String)
 )
 
+if myargs.drop: 
+    mymetadata.drop_all(myengine)
 mymetadata.create_all(myengine)

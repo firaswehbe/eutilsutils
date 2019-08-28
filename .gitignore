@@ -1,7 +1,7 @@
 *.swp
 *.py~
 *.pyc
-*.DS_STORE
+*.DS_Store
 notebooks/.*
 scripts/output/*.csv
 config/config.ini
