@@ -4,7 +4,7 @@ if __name__ != '__main__':
     import sys
     sys.exit("This script cannot be imported, only run from command line")
 
-import pandas
+import pandas as PD
 import sqlalchemy as SA
 import eutilsconfig as EC
 import logging
@@ -21,6 +21,9 @@ myargs = myargparser.parse_args()
 en.email = 'firas.wehbe' + '@' + 'northwestern.edu'
 logging.basicConfig(filename=myargs.logfile,level=logging.DEBUG,format='%(asctime)s %(levelname)s:%(filename)s:%(lineno)s:%(message)s')
 myengine = SA.create_engine(EC.myenginestr)
+mymeta = SA.MetaData(myengine)
+mymeta.reflect(only=['esummaries'])
+myesummaries = mymeta.tables['esummaries']
 
 # Read pmids from file
 pmids = pandas.read_csv(myargs.input,
@@ -48,6 +51,9 @@ logging.info('Wrote {0} PMIDS to csv file'.format(len(pmids.pmid)))
 esum_df.to_csv(myargs.output,index=False)
 
 #Check for existing records
+myconn = myengine.connect()
+s = SA.sql.select( [myesummaries.c.pmid] )
+myexisting = PD.read_sql(s,myconn)
     
 
 """
