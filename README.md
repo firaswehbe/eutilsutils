@@ -14,24 +14,21 @@ here](notebooks/).
 The [scripts](scripts/) directory will have some general utility scripts for
 testing the code or to demonstrate the functionality.
 
-* [pmid2csv.py](scripts/pmid2csv.md): Takes as input a file with pubmed IDs and
-creates csv file with publication data
-* [pmid2pmcid.py](scripts/pmid2pmcids.md): Takes as input a file with pubmed IDs
-and creates a csv file with added PMCIDs.
-
 ## Installation and Running
 
-Easy:
+__Before first use:__
 
-* Download and install [Anaconda](https://www.continuum.io/downloads).
-* Clone this repo
-* Load the conda environment that I created with all the package dependencies
-as follows:
+1. Download and install [Conda](https://docs.conda.io/projects/conda/en/latest/#) (Anaconda or Miniconda).
+2. Clone this repo
+3. Create a conda environment with the required dependencies.
 
 ```bash
-$ conda env create -f config/eutilsutils.yml
+$ conda create --name eutilsutils --file config/eutilsutils.yml
 ```
+__Before running the scripts:__
 
-* Run the scripts and notebooks under this environment. I'll make sure all
-dependencies are always included.
+Make sure you activate the conda environment
 
+```bash
+$ conda activate eutilsutils
+```
