@@ -43,14 +43,20 @@ print('Fetched {0} PMID records from PubMed eSummary'.format(len(esum_records)))
 
 # Parse and load into a pandas data frame
 for record in esum_records:
-    esum_list.append((
+    esum_row = [
             record['Id'],
             ','.join(record['AuthorList']),
             record['Title'],
             record['Source'],
             record['SO']
-            ))
-esum_df = PD.DataFrame(esum_list,columns=['pmid','authors','title','source','so'])
+            ]
+    if ('pmcid' in record['ArticleIds'].keys()):
+        esum_row.append(record['ArticleIds']['pmc'])
+    else:
+        esum_row.append( None )
+    esum_list.append(esum_row)
+    
+esum_df = PD.DataFrame(esum_list,columns=['pmid','authors','title','source','so','pmc'])
 
 #Write to CSV
 esum_df.to_csv(myargs.output,index=False)

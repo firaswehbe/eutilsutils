@@ -24,7 +24,8 @@ eusummaries = SA.Table('esummaries', mymetadata,
     SA.Column('authors', SA.String),
     SA.Column('title', SA.String),
     SA.Column('source', SA.String),
-    SA.Column('so', SA.String)
+    SA.Column('so', SA.String),
+    SA.Column('pmc', SA.String)
 )
 
 if myargs.drop: 
