@@ -29,6 +29,8 @@ eusummaries = SA.Table('esummaries', mymetadata,
 
 if myargs.drop: 
     mymetadata.drop_all(myengine)
-    logging.warning('Dropped all tables in schema:{0}'.format(','.join(mymetadata.tables)))
+    logging.warning('Dropped all tables in schema: {0}'.format(','.join(mymetadata.tables)))
+    print('Dropped all tables in schema: {0}'.format(','.join(mymetadata.tables)))
 mymetadata.create_all(myengine)
-logging.info('Created tables in schema:{0}'.format(','.join(mymetadata.tables)))
+logging.info('Created tables in schema: {0}'.format(','.join(mymetadata.tables)))
+print('Created tables in schema: {0}'.format(','.join(mymetadata.tables)))
