@@ -1,0 +1,8 @@
+name: eutilsutils
+channels:
+  - defaults
+dependencies:
+  - ipython
+  - sqlalchemy
+  - python=3.10
+prefix: /Users/fhw108/miniconda3/envs/eutilsutils
