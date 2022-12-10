@@ -2,8 +2,13 @@
 *.py~
 *.pyc
 *.DS_Store
+
 notebooks/.*
+
 scripts/input/*.pmids
 scripts/output/*.csv
 scripts/log/*.log
+
 config/config.ini
+
+instance
