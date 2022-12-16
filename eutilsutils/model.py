@@ -9,5 +9,6 @@ class PMPaper(EutilsUtilsBaseModel):
     id = SA.Column(SA.Integer, primary_key=True)
     title = SA.Column(SA.String(500))
     journal = SA.Column(SA.String(250))
-    pdat_y = SA.Column(SA.Integer)
+    pubdate_y = SA.Column(SA.Integer)
+    pubdate_medline = SA.Column(SA.String(50))
     edat = SA.Column(SA.Date)

@@ -17,16 +17,14 @@ def loadEfetch2PMPapers(eutilsutilsobj, efetch_result, skip_existing=True):
             ####################
             # MEDLINE CITATION #
             ####################
-            # These two nested keys should be required per DTD
+            # When not explicitly checking for keys, it means they are required per DTD
             # If not, a raised key error should break the session
             mymedlinecitation = mypmarticle['MedlineCitation']
             mypmid = str(mymedlinecitation['PMID'])
+            # This below does a database look up; keep track of cost in large batches
             myPMPaper = mysession.get(PMPaper,mypmid)
             if myPMPaper is not None and skip_existing:
-                # We just did a database look up; keep track of cost in large batches
-                # If record in database add it to container, print message, and skip
                 mypmpaper_list.append((mypmid,'in db - loaded from db only'))
-                print(f"PMID: {mypmid} exists in the database, skipping...")
                 continue
             elif myPMPaper is None:
                 mypmpaper_list.append((mypmid,'not in db - parsed and inserted'))
@@ -37,8 +35,23 @@ def loadEfetch2PMPapers(eutilsutilsobj, efetch_result, skip_existing=True):
             myPMPaper = mysession.merge(myPMPaper) 
             myPMPaper.title = mymedlinecitation['Article']['ArticleTitle']
             myPMPaper.journal = mymedlinecitation['MedlineJournalInfo']['MedlineTA']
-            myPMPaper.pdat_y = mymedlinecitation['Article']['Journal']['JournalIssue']['PubDate']['Year']
-            # Add other attributes later
+            # It's either Year or MedlineDate that are guaranteed in PubDate
+            myPMPaper.pubdate_y = mymedlinecitation['Article']['Journal']['JournalIssue']['PubDate'].get('Year')
+            myPMPaper.pubdate_medline = mymedlinecitation['Article']['Journal']['JournalIssue']['PubDate'].get('MedlineDate')
+
+            ##############
+            # PubmedData #
+            ##############
+            mypubmeddata = mypmarticle.get('PubmedData')
+            if mypubmeddata is None:
+                continue
+            if 'History' in mypubmeddata:
+                # History tag should be a list
+                for mypubmedpubdate in mypubmeddata['History']: #TODO
+                    pass
+
+
+
 
 
     # Should commit session or rollback at the end of the begin() context
