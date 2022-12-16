@@ -8,5 +8,6 @@ class PMPaper(EutilsUtilsBaseModel):
 
     id = SA.Column(SA.Integer, primary_key=True)
     title = SA.Column(SA.String(500))
-    pdat = SA.Column(SA.Date)
+    journal = SA.Column(SA.String(250))
+    pdat_y = SA.Column(SA.Integer)
     edat = SA.Column(SA.Date)

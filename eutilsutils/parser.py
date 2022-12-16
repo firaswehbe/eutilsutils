@@ -14,6 +14,9 @@ def loadEfetch2PMPapers(eutilsutilsobj, efetch_result, skip_existing=True):
     mypmpaper_list = []
     with eutilsutilsobj.db.session_maker.begin() as mysession:
         for mypmarticle in efetch_result['PubmedArticle']:
+            ####################
+            # MEDLINE CITATION #
+            ####################
             # These two nested keys should be required per DTD
             # If not, a raised key error should break the session
             mymedlinecitation = mypmarticle['MedlineCitation']
@@ -33,6 +36,8 @@ def loadEfetch2PMPapers(eutilsutilsobj, efetch_result, skip_existing=True):
             # Session.merge() returns the new object loaded/created in session, use that going forward
             myPMPaper = mysession.merge(myPMPaper) 
             myPMPaper.title = mymedlinecitation['Article']['ArticleTitle']
+            myPMPaper.journal = mymedlinecitation['MedlineJournalInfo']['MedlineTA']
+            myPMPaper.pdat_y = mymedlinecitation['Article']['Journal']['JournalIssue']['PubDate']['Year']
             # Add other attributes later
 
 
