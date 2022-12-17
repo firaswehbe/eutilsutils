@@ -17,7 +17,8 @@ class EutilsUtils:
         if configlocation is None:
             configlocation = os.path.join(rootlocation,'config/config.ini')
 
-        self.root = rootlocation
+        self.rootlocation = rootlocation
+        self.configlocation = configlocation
 
         self.config = configparser.ConfigParser()
         self.config.read(configlocation)
