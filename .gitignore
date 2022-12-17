@@ -5,10 +5,7 @@
 
 notebooks/.*
 
-scripts/input/*.pmids
-scripts/output/*.csv
-scripts/log/*.log
-
+input/*.pmids
+output/*.csv
+log/*.log
 config/config.ini
-
-instance
