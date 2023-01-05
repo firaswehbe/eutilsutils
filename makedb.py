@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# Consider adding argparse for argument and rich output
-
 from eutilsutils import EutilsUtils
 from eutilsutils.model import EutilsUtilsBaseModel
 import argparse
@@ -57,7 +55,6 @@ else:
 myconsole.print("Creating new tables")
 
 myexistingmetadata = SA.MetaData()
-myexistingmetadata.reflect(bind=app.db.engine)
 myexistingmetadata.reflect(bind=app.db.engine)
 for myexistingtable in myexistingmetadata.sorted_tables:
     mycolor = 'bright_yellow' if str(myexistingtable) in EutilsUtilsBaseModel.metadata.tables else 'bright_white'
